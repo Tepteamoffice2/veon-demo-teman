@@ -1,0 +1,61 @@
+---
+import Icon from "./Icon.astro";
+import FutureLink from "./FutureLink.astro";
+import { NAV, PHONE_MAIN, MESSENGERS } from "../data/teman";
+const msgs = [
+  { key: "viber", icon: "viber", ...MESSENGERS.viber },
+  { key: "telegram", icon: "telegram", ...MESSENGERS.telegram },
+  { key: "whatsapp", icon: "whatsapp", ...MESSENGERS.whatsapp },
+] as const;
+---
+<header class="site-header" data-rec="R-002">
+  <div class="container site-header__row">
+    <a class="logo" href="#top" aria-label="ТЕМАН — на початок сторінки"><span aria-hidden="true">ТЕМАН</span></a>
+
+    <nav class="site-nav" aria-label="Розділи сторінки">
+      <ul>
+        {NAV.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a class="hphone" href={`tel:${PHONE_MAIN.tel}`} aria-label={`Подзвонити ${PHONE_MAIN.label}`}>
+        <Icon name="phone" size={22} /><span class="hphone__text">{PHONE_MAIN.label}</span>
+      </a>
+      <ul class="hmsg" aria-label="Месенджери">
+        {msgs.map((m) => (
+          <li><a class="icon-btn" href={m.href} data-msg={m.key} {...(m.key === "whatsapp" ? { "data-wa": "" } : { "data-copy": "" })} {...(m.key !== "viber" ? { target: "_blank", rel: "noopener" } : {})} aria-label={`Написати у ${m.label}`}><Icon name={m.icon} /></a></li>
+        ))}
+      </ul>
+      <div class="hfuture">
+        <FutureLink class="icon-btn icon-btn--future" align="end" label="Кошик"><Icon name="cart" /></FutureLink>
+        <FutureLink class="icon-btn icon-btn--future" align="end" label="Кабінет"><Icon name="user" /></FutureLink>
+        <FutureLink class="icon-btn icon-btn--future lang" align="end" label="Російська версія"><span aria-hidden="true">RU</span></FutureLink>
+      </div>
+
+      <details class="menu" data-menu>
+        <summary class="icon-btn menu__toggle" aria-label="Меню">
+          <Icon name="menu" class="menu__open" /><Icon name="close" class="menu__close" />
+        </summary>
+        <div class="menu__panel">
+          <nav aria-label="Розділи сторінки (меню)">
+            <ul class="menu__nav">
+              {NAV.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+            </ul>
+          </nav>
+          <a class="menu__phone" href={`tel:${PHONE_MAIN.tel}`}><Icon name="phone" />{PHONE_MAIN.label}</a>
+          <ul class="menu__msg">
+            {msgs.map((m) => (
+              <li><a class="btn btn--outline" href={m.href} data-msg={m.key} {...(m.key === "whatsapp" ? { "data-wa": "" } : { "data-copy": "" })} {...(m.key !== "viber" ? { target: "_blank", rel: "noopener" } : {})}><Icon name={m.icon} />{m.label}</a></li>
+            ))}
+          </ul>
+          <div class="menu__future">
+            <FutureLink align="start">Кошик</FutureLink>
+            <FutureLink align="center">Кабінет</FutureLink>
+            <FutureLink align="end">Русская версия</FutureLink>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,10 @@
+---
+import Icon from "./Icon.astro";
+import { PHONE_MAIN, MESSENGERS } from "../data/teman";
+---
+<nav class="mbar" aria-label="Швидкий зв’язок" data-rec="R-002">
+  <a href={`tel:${PHONE_MAIN.tel}`}><Icon name="phone" size={22} /><span>Подзвонити</span></a>
+  <a href={MESSENGERS.viber.href} data-copy data-msg="viber"><Icon name="viber" size={22} /><span>Viber</span></a>
+  <a href={MESSENGERS.telegram.href} data-copy data-msg="telegram" target="_blank" rel="noopener"><Icon name="telegram" size={22} /><span>Telegram</span></a>
+  <a href={MESSENGERS.whatsapp.href} data-wa data-msg="whatsapp" target="_blank" rel="noopener"><Icon name="whatsapp" size={22} /><span>WhatsApp</span></a>
+</nav>

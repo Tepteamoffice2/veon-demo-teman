@@ -1,0 +1,4 @@
+Tektur — Copyright 2023 The Tektur Project Authors. Licensed under the SIL Open Font License, Version 1.1.
+Golos Text — Copyright 2022 The Golos Text Project Authors (Paratype). Licensed under the SIL Open Font License, Version 1.1.
+Full license text: https://openfontlicense.org/open-font-license-official-text/
+Files: Google Fonts subsets (latin, cyrillic), self-hosted.

@@ -1,0 +1,93 @@
+/* Hallmark · shape: tool-first landing (field as headline) · genre: modern-minimal · theme: custom · job: buy + visit · idea: "TEMAN починається з номера — поле номера/VIN є заголовком, номер проходить крізь сторінку" · vibe: "технічно, точно, впевнено, по-харківськи прямо" · paper: #FFFFFF/#EDF0F5 + field #2D5099 · surface: absolute · accent: #FFC233 · display: Tektur · body: Golos Text · hero: синє поле бренду з гігантським полем номера/VIN, VIN-шкалою і янтарною відправкою в месенджер · nav: white bar, logo + 6 anchors + phone + messenger icons, mobile menu + bottom channel bar · footer: white, logo, anchors, future links, © TEMAN · imagery: client photo (shop facade) only · signature: введений номер підставляється у речення «Як ми підбираємо» і в повідомлення WhatsApp; VIN-шкала з 17 поділок · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H5 E4 S5 R4 V4 · weakest: E, low-res facade photo — kept it at native size in kontakty, never stretched, the rest is type and the client's own numbers */
+/* Hallmark · waive 7b · stamp declares surface: absolute, accent ink defined, paper #FFFFFF with steel #EDF0F5 sections · the approved TEMAN concept fixes white paper and white type on the brand-blue field as the bg token */
+/* Hallmark · waive 39b · the part-number input stands 120px and the messenger buttons 56px at desktop · concept.md makes the number field the headline of the page, and the buttons are the one-tap send for a phone in a garage */
+/* Hallmark · answered F19 · Tektur runs 500/600/700 for input, headings and numerals, Golos Text 400/600 for text; the 500 is the typed part number only */
+/* Hallmark · waive 79 · below the blue hero the white «Як ми підбираємо» block with the echoed part number already starts inside the 1440 fold · finish-review asked to remove the empty blue under the hint, so the field is not stretched to the fold */
+/* Client design tokens: only from design/concept.md (veon-concept: colors, fonts). */
+
+@font-face {
+  font-family: "Tektur";
+  src: url("/fonts/tektur-cyrillic.woff2") format("woff2");
+  font-weight: 400 900;
+  font-stretch: 75% 100%;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Tektur";
+  src: url("/fonts/tektur-latin.woff2") format("woff2");
+  font-weight: 400 900;
+  font-stretch: 75% 100%;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Golos Text";
+  src: url("/fonts/golos-cyrillic.woff2") format("woff2");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Golos Text";
+  src: url("/fonts/golos-latin.woff2") format("woff2");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* Palette (concept.md § Палитра) */
+  --color-brand: #2D5099;
+  --color-brand-deep: #1E3A7B;
+  --color-accent: #FFC233;
+  --color-ink: #0E1A33;
+  --color-muted: #4B5873;
+  --color-on-brand-muted: #C9D6F2;
+  --color-surface: #EDF0F5;
+  --color-line: #C5CDDA;
+  --color-white: #FFFFFF;
+  /* Base names used by global.css */
+  --color-bg: var(--color-white);
+  --color-text: var(--color-ink);
+  --color-on-brand: var(--color-white);
+  --color-accent-ink: var(--color-ink);
+  --color-shade: rgb(14 26 51 / 0.12);
+  --color-on-brand-line: rgb(201 214 242 / 0.35);
+
+  /* Type */
+  --font-display: "Tektur", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fs-numeral: clamp(72px, 12vw, 176px);
+  --fs-h1: clamp(30px, 4.4vw, 60px);
+  --fs-input: clamp(26px, 4.6vw, 64px);
+  --fs-h2: clamp(28px, 3.2vw, 44px);
+  --fs-lead: clamp(20px, 1.8vw, 24px);
+  --fs-body: 18px;
+  --fs-small: 15px;
+
+  /* Space scale 4/8 */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px;
+  --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
+
+  /* Grid */
+  --container: 1280px;
+  --gutter: clamp(20px, 5vw, 80px);
+  --gap: 24px;
+  --space: var(--gutter);
+
+  /* Shape and motion */
+  --radius: 4px;
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --dur: 600ms;
+  --header-h: 72px;
+  --bar-h: 56px;
+}
+@media (max-width: 767px) {
+  :root { --fs-body: 16px; --gap: 16px; --header-h: 60px; }
+}

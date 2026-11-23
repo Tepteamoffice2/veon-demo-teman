@@ -1,0 +1,266 @@
+---
+import Base from "../layouts/Base.astro";
+import Section from "../components/Section.astro";
+import FutureLink from "../components/FutureLink.astro";
+import Icon from "../components/Icon.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import MobileBar from "../components/MobileBar.astro";
+import { PHONES, PHONE_MAIN, EMAIL, MESSENGERS, MAP_ROUTE, SOCIAL, MAKES, waLink } from "../data/teman";
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const title = "Автозапчастини в Харкові з доставкою по Україні — TEMAN";
+const description = "Підбір автозапчастин за номером і VIN: оригінал і аналоги, близько 15 млн позицій, офіційний реселер MOTUL, KYB, SACHS. Самовивіз у Харкові, Нова пошта 1–3 дні.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AutoPartsStore",
+  name: "TEMAN",
+  alternateName: "ТЕМАН",
+  description,
+  foundingDate: "2005",
+  telephone: PHONES.map((p) => p.tel),
+  email: EMAIL,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "пр-т Байрона (Героїв Сталінграда), 1",
+    addressLocality: "Харків",
+    postalCode: "61124",
+    addressCountry: "UA",
+  },
+  geo: { "@type": "GeoCoordinates", latitude: 49.945796, longitude: 36.264288 },
+  hasMap: MAP_ROUTE,
+  areaServed: "UA",
+  brand: ["KYB", "MOTUL", "S-Oil", "SACHS", "Moog", "Comma"].map((name) => ({ "@type": "Brand", name })),
+  sameAs: SOCIAL.map((s) => s.href),
+};
+
+const directions = [
+  { title: "Запчастини для іномарок і вітчизняних авто", note: "Оригінал та аналоги, підбір за номером і VIN" },
+  { title: "Моторні масла та автохімія", note: "MOTUL, S-Oil, Comma, Ravenol, Rowe, Wolf, антифризи й очисники" },
+  { title: "Аксесуари, інструмент, обладнання для СТО", note: "Компресори й насоси, засоби догляду, автоаксесуари" },
+];
+
+const brandGroups = [
+  { title: "Масла й автохімія", brands: ["MOTUL", "S-Oil", "Comma"] },
+  { title: "Підвіска й ходова", brands: ["KYB", "SACHS", "Moog"] },
+];
+const priceText = (b: string) => `Вітаю! Хочу дізнатися ціну на ${b}.`;
+const invoiceMail = `mailto:${EMAIL}?subject=${encodeURIComponent("Рахунок для ТОВ/ФОП")}`;
+const ticks = Array.from({ length: 17 });
+---
+<Base lang="uk" title={title} description={description} mainRec="R-004,R-005,R-006,G-R005,MA-R005,S-R005,S-R008,S-R015">
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <Header slot="header" />
+
+  <!-- 1. Пошук за номером / VIN -->
+  <Section id="poshuk" rec="R-001,G-R004,MA-R004" class="hero">
+    <div class="container hero__grid">
+      <h1 class="hero__title" data-rec="R-007,S-R007">Автозапчастини за номером або VIN — у Харкові й по всій Україні</h1>
+
+      <div class="finder">
+        <label class="finder__label" for="part">Номер запчастини або VIN</label>
+        <div class="finder__box">
+          <div class="finder__field">
+          <input class="finder__input" id="part" name="part" type="text" inputmode="text" autocapitalize="characters" autocomplete="off" spellcheck="false" maxlength="40" placeholder=" " aria-describedby="part-vin part-hint" data-part />
+          <span class="finder__ph" aria-hidden="true"><span class="finder__ph-text" data-ph>Номер з каталогу або з деталі</span></span>
+          </div>
+          <FutureLink class="finder__catalog" note="Пошук по каталогу з’явиться в повній версії сайту" align="end"><Icon name="search" size={20} />Знайти в каталозі</FutureLink>
+        </div>
+        <div class="vin" id="part-vin">
+          <span class="vin__ticks" aria-hidden="true" data-ticks>{ticks.map(() => <span class="vin__tick"></span>)}</span>
+          <span class="vin__count"><span data-count>0</span> / 17</span>
+          <span class="vin__status" data-vin-status aria-live="polite">VIN — 17 символів, є у техпаспорті</span>
+        </div>
+      </div>
+
+
+      <div class="send" role="group" aria-labelledby="send-label" data-rec="R-002">
+        <p class="send__title" id="send-label">Надіслати номер менеджеру</p>
+        <ul class="send__list">
+          <li><a class="btn btn--accent" href={MESSENGERS.viber.href} data-copy data-msg="viber"><Icon name="viber" />Viber</a></li>
+          <li><a class="btn btn--accent" href={MESSENGERS.telegram.href} data-copy data-msg="telegram" target="_blank" rel="noopener"><Icon name="telegram" />Telegram</a></li>
+          <li><a class="btn btn--accent" href={MESSENGERS.whatsapp.href} data-wa data-msg="whatsapp" target="_blank" rel="noopener"><Icon name="whatsapp" />WhatsApp</a></li>
+        </ul>
+        <a class="send__phone" href={`tel:${PHONE_MAIN.tel}`}><Icon name="phone" size={20} /><span>або подзвоніть <strong>{PHONE_MAIN.label}</strong></span></a>
+      </div>
+
+      <p class="hero__hint" id="part-hint">Онлайн-пошук із цінами запрацює в повній версії сайту. Зараз надішліть номер — менеджер підбере оригінал і аналоги.</p>
+
+      <p class="hero__fact">TEMAN працює в Харкові з 2005 року: близько <span class="nowrap">15 млн</span> позицій, самовивіз із магазину й доставка по Україні за <span class="nowrap">1–3 дні</span>.</p>
+    </div>
+  </Section>
+
+  <!-- 2. Як ми підбираємо -->
+  <Section id="yak-pidbyraiemo" class="how">
+    <div class="container how__grid">
+      <h2 class="how__title">Як ми підбираємо деталь за вашим номером</h2>
+      <p class="how__sentence">
+        <span class="how__line">Ви надсилаєте <span class="echo is-empty" data-echo>ваш номер</span>,</span>
+        <span class="how__line">менеджер підбирає оригінал і аналоги,</span>
+        <span class="how__line">а ви забираєте деталь у Харкові або отримуєте Новою поштою за <span class="nowrap">1–3 дні</span>.</span>
+      </p>
+      <div class="how__cta">
+        <a class="btn btn--outline" href={MESSENGERS.viber.href} data-copy data-msg="viber"><Icon name="viber" />Написати у Viber</a>
+        <p class="how__note">Номер, який ви ввели вгорі, скопіюється — залишиться вставити його в чат.</p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 3. Каталог -->
+  <Section id="kataloh" class="catalog">
+    <div class="container catalog__grid">
+      <div class="catalog__head">
+        <h2>Близько 15 мільйонів позицій у каталозі</h2>
+        <p>Чого немає на складі магазину, привеземо з партнерських складів.</p>
+      </div>
+      <p class="numeral catalog__numeral" data-reveal aria-hidden="true"><span>15 000 000</span></p>
+
+      <ul class="dirs">
+        {directions.map((d) => (
+          <li>
+            <FutureLink class="dir" align="start">
+              <span class="dir__title">{d.title}</span>
+              <span class="dir__note">{d.note}</span>
+              <Icon name="arrow" class="dir__arrow" />
+            </FutureLink>
+          </li>
+        ))}
+      </ul>
+
+      <div class="makes">
+        <h3 class="makes__title">Запчастини за марками авто</h3>
+        <ul class="makes__list">
+          {MAKES.map((m, i) => <li><FutureLink class="make" align={i % 10 > 6 ? "end" : i % 10 < 2 ? "start" : "center"}>{m}</FutureLink></li>)}
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 4. Бренди -->
+  <Section id="brendy" class="brands">
+    <div class="container brands__grid">
+      <div class="brands__head">
+        <h2>Офіційний реселер KYB, MOTUL, <span class="nowrap">S-Oil</span>, SACHS, Moog і Comma</h2>
+        <p>Натисніть на бренд, щоб запитати ціну в WhatsApp.</p>
+      </div>
+      {brandGroups.map((g) => (
+        <div class="brands__group">
+          <h3>{g.title}</h3>
+          <ul>
+            {g.brands.map((b) => (
+              <li>
+                <a class="brand" href={waLink(priceText(b))} target="_blank" rel="noopener" aria-label={`${b}: запитати ціну у WhatsApp`}>
+                  <span class="brand__name">{b}</span>
+                  <span class="brand__cta" aria-hidden="true">Запитати ціну<Icon name="arrow" size={20} class="brand__arrow" /></span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- 5. Доставка -->
+  <Section id="dostavka" rec="R-003" class="delivery">
+    <div class="container delivery__grid">
+      <p class="numeral delivery__numeral" data-reveal aria-hidden="true"><span>1–3<small> дні</small></span></p>
+      <div class="delivery__body">
+        <h2>Доставка по Україні за <span class="nowrap">1–3 дні</span></h2>
+        <dl class="qa">
+          <div>
+            <dt>Скільки коштує доставка?</dt>
+            <dd>Самовивіз із магазину в Харкові — безкоштовно. Від <span class="nowrap">5000 грн</span> планова доставка безкоштовна, крім кузовних і габаритних деталей. Вантаж страхуємо на повну вартість.</dd>
+          </div>
+          <div>
+            <dt>Як оплатити?</dt>
+            <dd>Карткою, через термінал або на рахунок, зокрема через Monobank і Privat24. Накладений платіж Новою поштою — з передоплатою від <span class="nowrap">100 грн</span> або <span class="nowrap">10 %</span>.</dd>
+          </div>
+          <div>
+            <dt>Якщо деталь не підійде?</dt>
+            <dd>Якісний товар можна обміняти або повернути протягом <span class="nowrap">14 днів</span>. Мінімальна гарантія — <span class="nowrap">30 днів</span>, претензію розглядаємо за <span class="nowrap">5 робочих днів</span>.</dd>
+          </div>
+        </dl>
+        <div class="delivery__cta">
+          <a class="btn btn--outline" href={waLink("Вітаю! Маю питання щодо доставки й оплати.")} target="_blank" rel="noopener"><Icon name="whatsapp" />Написати менеджеру</a>
+          <FutureLink class="btn btn--future" align="start">Детальніше про доставку</FutureLink>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 6. Для бізнесу -->
+  <Section id="biznesu" class="biz">
+    <div class="container biz__grid">
+      <div class="biz__head">
+        <h2>Для СТО і ФОП: рахунок з ПДВ і оптові ціни</h2>
+        <p class="biz__num"><span>24 000 грн</span><small>на рік — поріг оптових цін</small></p>
+      </div>
+      <ul class="biz__list">
+        <li><strong>Рахунок для ТОВ і ФОП</strong> ціни з ПДВ, оплата на рахунок</li>
+        <li><strong>Оптові ціни</strong> від обороту <span class="nowrap">24 000 грн</span> на рік</li>
+        <li><strong>Обладнання для СТО</strong> інструмент, компресори, насоси</li>
+      </ul>
+      <div class="biz__cta">
+        <a class="btn btn--accent" href={invoiceMail}><Icon name="mail" />Запросити рахунок</a>
+        <a class="biz__phone" href={`tel:${PHONE_MAIN.tel}`}><Icon name="phone" size={20} />{PHONE_MAIN.label}</a>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 7. Контакти -->
+  <Section id="kontakty" rec="R-003" class="contacts">
+    <div class="container contacts__grid">
+      <div class="contacts__main">
+        <h2>Магазин TEMAN у Харкові</h2>
+        <p class="address">пр-т Байрона (Героїв Сталінграда), 1<span>Харків, 61124</span></p>
+        <a class="btn btn--accent" href={MAP_ROUTE} target="_blank" rel="noopener"><Icon name="pin" />Прокласти маршрут</a>
+        <p class="contacts__note">Перед візитом уточніть наявність деталі та час роботи магазину за телефоном.</p>
+      </div>
+
+      <figure class="contacts__photo">
+        <picture>
+          <source srcset={`${base}img/teman-fasad.webp`} type="image/webp" />
+          <img src={`${base}img/teman-fasad.jpg`} width="379" height="388" loading="lazy" decoding="async" alt="Вхід до магазину автозапчастин TEMAN: вивіска «Автозапчасти», металеві сходи до дверей" />
+        </picture>
+        <figcaption>Магазин і пункт самовивозу на пр-ті Байрона, 1</figcaption>
+      </figure>
+
+      <div class="contacts__channels" data-rec="R-002">
+        <div class="ch">
+          <h3>Телефони</h3>
+          <ul>{PHONES.map((p) => <li><a href={`tel:${p.tel}`}>{p.label}</a></li>)}</ul>
+        </div>
+        <div class="ch">
+          <h3>Месенджери</h3>
+          <p class="ch__sub">на номер {PHONE_MAIN.label}</p>
+          <ul class="ch__icons">
+            <li><a href={MESSENGERS.viber.href} data-copy data-msg="viber"><Icon name="viber" size={20} />Viber</a></li>
+            <li><a href={MESSENGERS.telegram.href} data-copy data-msg="telegram" target="_blank" rel="noopener"><Icon name="telegram" size={20} />Telegram</a></li>
+            <li><a href={MESSENGERS.whatsapp.href} data-wa data-msg="whatsapp" target="_blank" rel="noopener"><Icon name="whatsapp" size={20} />WhatsApp</a></li>
+          </ul>
+        </div>
+        <div class="ch">
+          <h3>E-mail</h3>
+          <ul><li><a href={`mailto:${EMAIL}`}>{EMAIL}</a></li></ul>
+        </div>
+        <div class="ch">
+          <h3>Соцмережі</h3>
+          <ul class="ch__icons">
+            {SOCIAL.map((s) => <li><a href={s.href} target="_blank" rel="noopener"><Icon name={s.icon} size={20} />{s.name}</a></li>)}
+          </ul>
+        </div>
+      </div>
+
+      <p class="partner">
+        <strong>Партнерське СТО «Автосервіс Тема-Н»</strong> у Богодухові, вул. Оверченка, 36/3: встановлення деталей зі знижкою зі збереженням гарантії. Телефон <a href="tel:+380575832570">(05758) 3-25-70</a>.
+      </p>
+    </div>
+  </Section>
+
+  <Footer slot="footer" />
+  <MobileBar slot="footer" />
+  <p class="toast" role="status" aria-live="polite" data-toast slot="footer"></p>
+  <script src="../scripts/page.ts"></script>
+</Base>

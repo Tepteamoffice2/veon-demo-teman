@@ -1,0 +1,20 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { NAV } from "../data/teman";
+const future = ["Доставка й оплата", "Повернення і гарантія", "Про компанію", "Статті", "Політика конфіденційності"];
+---
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <a class="logo" href="#top" aria-label="ТЕМАН — на початок сторінки"><span aria-hidden="true">ТЕМАН</span></a>
+      <p>Магазин автозапчастин у Харкові з 2005 року. Доставка по всій Україні.</p>
+    </div>
+    <nav class="site-footer__nav" aria-label="Розділи сторінки (футер)">
+      <ul>{NAV.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+    </nav>
+    <ul class="site-footer__future" aria-label="Сторінки повної версії сайту">
+      {future.map((f, i) => <li><FutureLink align={i % 2 ? "end" : "start"}>{f}</FutureLink></li>)}
+    </ul>
+    <p class="site-footer__copy">© TEMAN</p>
+  </div>
+</footer>
